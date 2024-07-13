@@ -18,10 +18,10 @@ I implemented API tests using Python with the Flask framework, also using SOLID 
 
 Postman Test Results Example
 - 200
-![Untitled](AsiaYo%20Pretest%209962a63911a0419d93e27c4dd6466c0c/Untitled%206.png)
+![Untitled (12)](https://hackmd.io/_uploads/ryWTCfguA.png)
 
 - 400
-![Untitled](AsiaYo%20Pretest%209962a63911a0419d93e27c4dd6466c0c/Untitled%207.png)
+![Untitled (13)](https://hackmd.io/_uploads/Sye-TCGedC.png)
 
 **Unit Testing**
 
@@ -38,7 +38,7 @@ I used pytest for unit testing. Test cases include:
 9. Test when input field values have incorrect data types.
 
 The actual pytest results are as follows: 
-![Untitled](AsiaYo%20Pretest%209962a63911a0419d93e27c4dd6466c0c/Untitled%208.png)
+![Untitled (14)](https://hackmd.io/_uploads/rkZaCMgdR.png)
 
 **Docker**
 
@@ -59,4 +59,4 @@ docker run -p 5000:5000 --rm --name test fangyu070899/asiayo-pretest
 
 You can access the HTML interface at http://localhost:5000, where you can directly use templates or modify JSON to test the API. The API endpoint is located at http://localhost:5000/api/orders.
 
-![Untitled](AsiaYo%20Pretest%209962a63911a0419d93e27c4dd6466c0c/Untitled%209.png)
+![Untitled (15)](https://hackmd.io/_uploads/S1W6RGxOC.png)
