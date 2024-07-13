@@ -9,7 +9,7 @@ def create_order():
     data = request.get_json()
     
     try:
-        validate_order(data)  # 檢查訂單是否包含所有必要欄位並且是否為指定型態
+        validate_order(data)  # 檢查訂單是否包含所有必要欄位，並且是否為指定型態
     except ValidationError as e:
         return jsonify({"errors": e.errors}), 400
 
@@ -34,6 +34,7 @@ def create_order():
         "currency": order.currency
     }), 200
 
+# 網站可測試 api
 @orders_bp.route('/')
 def order_form():
     return render_template('order_form.html')
