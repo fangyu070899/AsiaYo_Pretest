@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .input-output {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+        }
+        textarea {
+            width: 600px;
+            height: 400px;
+            margin: 10px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #output {
+            background-color: #f0f0f0;
+        }
+        button, select {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <select id="templateSelector">
+                <option value="">Select a template</option>
+                <option value='{"id": "A0000000", "name": "Melody Holiday Inn", "address": {"city": "taipei-city", "district": "da-an-district", "street": "fuxing-south-road"}, "price": "200", "currency": "TWD"}'>200 TWD</option>
+                <option value='{"id": "A0000001", "name": "Melody Holiday Inn", "address": {"city": "taipei-city", "district": "da-an-district", "street": "fuxing-south-road"}, "price": "50", "currency": "USD"}'>200 USD</option>
+                <option value='{"id": "A0000002", "name": "Sunshine Resort", "address": "kaohsiung-city", "price": "1500", "currency": "TWD"}'>400 datatype mismatch</option>
+                <option value='{"id": "A0000003", "name": "Another Resort", "price": "3000", "currency": "TWD"}'>400 missing_address_field</option>
+                <option value='{"id": "A0000004", "name": "Another Resort", "address": {"city": "taichung-city", "district": "west-district", "street": "taiwan-boulevard"}, "price": "2000", "currency": "JPY"}'>400 JPY</option>
+                <option value='{"id": "A0000005", "name": "Holiday;;;", "address": {"city": "taichung-city", "district": "west-district", "street": "taiwan-boulevard"}, "price": "2000", "currency": "TWD"}'>400 nonenglish</option>
+                <option value='{"id": "A0000006", "name": "Sunshine Resort", "address": {"city": "taichung-city", "district": "west-district", "street": "taiwan-boulevard"}, "price": "2050", "currency": "TWD"}'>400 price over 2000</option>
+                <option value='{"id": "A0000007", "name": "Melody holiday Inn", "address": {"city": "taichung-city", "district": "west-district", "street": "taiwan-boulevard"}, "price": "2000", "currency": "TWD"}'>400 name isn't capitalized</option>
+            </select>
+            <button onclick="submitOrder()">Submit</button>
+        </div>
+        <div class="input-output">
+            <textarea id="input" placeholder="Enter JSON here"></textarea>
+            <textarea id="output" readonly placeholder="Output will be displayed here"></textarea>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('templateSelector').addEventListener('change', function() {
+            const selectedTemplate = this.value;
+            if (selectedTemplate) {
+                document.getElementById('input').value = selectedTemplate;
+            }
+        });
+
+        function submitOrder() {
+            const input = document.getElementById('input').value;
+            fetch('/api/orders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: input
+            })
+            .then(response => response.json().then(data => ({ status: response.status, body: data })))
+            .then(result => {
+                const output = {
+                    status_code: result.status,
+                    body: result.body
+                };
+                document.getElementById('output').value = JSON.stringify(output, null, 2);
+            })
+            .catch(error => {
+                document.getElementById('output').value = 'Error: ' + error;
+            });
+        }
+    </script>
+</body>
+</html>
